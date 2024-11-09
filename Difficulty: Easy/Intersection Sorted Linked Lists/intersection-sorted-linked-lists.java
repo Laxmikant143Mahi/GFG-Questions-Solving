@@ -77,29 +77,32 @@ public class Main {
 
 class Solution {
     public static Node findIntersection(Node head1, Node head2) {
-        // code here.
-        
+        // Initialize a dummy node to start the result list.
         Node dummy = new Node(0);
+        // `result` will help build the intersection list.
         Node result = dummy;
         
-        
-        HashSet<Integer> set = new HashSet<>();
-        
-        
-        while(head1!=null){
-            set.add(head1.data);
-            head1 = head1.next;
-        }
-        
-        while(head2!=null){
-            
-            if(set.contains(head2.data)){
-                result.next = new Node(head2.data);
-                result = result.next;
+        // Traverse both lists using two pointers.
+        while (head1 != null && head2 != null) {
+            // If both nodes have the same value, add it to the result.
+            if (head1.data == head2.data) {
+                result.next = new Node(head1.data);
+                result = result.next;  // Move the result pointer forward.
+                head1 = head1.next;  // Move head1 pointer forward.
+                head2 = head2.next;  // Move head2 pointer forward.
+            } 
+            // If head1's data is smaller, move head1 forward.
+            else if (head1.data < head2.data) {
+                head1 = head1.next;
+            } 
+            // If head2's data is smaller, move head2 forward.
+            else {
+                head2 = head2.next;
             }
-            head2 = head2.next;
         }
         
+        // Return the next node of dummy (which points to the head of the intersection list).
         return dummy.next;
     }
 }
+
