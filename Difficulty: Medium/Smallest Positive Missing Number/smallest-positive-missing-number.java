@@ -29,7 +29,7 @@ public class Main {
             System.out.println(res);
 
             // Print the "~" symbol to match the original output
-            System.out.println("~");
+            // System.out.println("~");
         }
     }
 }
@@ -38,38 +38,33 @@ public class Main {
 
 
 
+
+
+
 class Solution {
-    // Function to find the smallest positive number missing from the array.
+    // Function to find the smallest positive number missing from the array
     public int missingNumber(int[] arr) {
-        // Your code here
+        int n = arr.length;
         
-        HashSet<Integer> set = new HashSet<>();
-        
-        for(int i=0; i<arr.length; i++){
-            
-            if(arr[i]>0){
-                set.add(arr[i]);
+        // Step 1: Rearrange the elements to their correct positions
+        for (int i = 0; i < n; i++) {
+            // Swap elements until each element is either out of range or in the correct position
+            while (arr[i] > 0 && arr[i] <= n && arr[arr[i] - 1] != arr[i]) {
+                // Swap arr[i] with arr[arr[i] - 1]
+                int temp = arr[i];
+                arr[i] = arr[arr[i] - 1];
+                arr[temp - 1] = temp;
             }
         }
         
-        
-        // Sorting HashSet using List 
-        List<Integer> list = new ArrayList<>(set); 
-        Collections.sort(list); 
-        
-        if(list.size()==0)
-            return 1;
-        
-        
-        if(list.get(0)!=1)
-            return 1;
-        
-        for(int i=0; i<list.size()-1; i++){
-            
-            if(list.get(i)+1 != list.get(i+1))
-                return list.get(i)+1;
+        // Step 2: Find the first index where the number is not correct
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != i + 1) {
+                return i + 1;
+            }
         }
         
-        return list.get(list.size()-1)+1;
+        // Step 3: If all numbers are in their correct positions, return n + 1
+        return n + 1;
     }
 }
