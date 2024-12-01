@@ -30,6 +30,10 @@ class Driverclass {
 
 // User function Template for Java
 
+
+
+// User function Template for Java
+
 class Solution {
     // Function to find the first non-repeating character in a string.
     static char nonRepeatingChar(String s) {
