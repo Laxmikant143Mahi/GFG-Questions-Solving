@@ -22,51 +22,61 @@ class Sorting {
 
 
 
+
+
 class Solution {
-    // Function to count inversions in the array.
+    
+    int merge(int[] arr, int start, int mid, int end) {
+        int[] temp = new int[end - start + 1];
+        int invCount = 0;
+
+        int i = start, j = mid + 1, k = 0;
+
+        // Merge process
+        while (i <= mid && j <= end) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                invCount += (mid - i + 1); // Count inversions
+            }
+        }
+
+        // Copy remaining elements of left half, if any
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        // Copy remaining elements of right half, if any
+        while (j <= end) {
+            temp[k++] = arr[j++];
+        }
+
+        // Copy sorted temp array back to the original array
+        for (i = start, k = 0; i <= end; i++, k++) {
+            arr[i] = temp[k];
+        }
+
+        return invCount;
+    }
+    
+    int mergeSort(int[] arr, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;
+
+            int leftInvCount = mergeSort(arr, start, mid);
+            int rightInvCount = mergeSort(arr, mid + 1, end);
+            int splitInvCount = merge(arr, start, mid, end);
+
+            return leftInvCount + rightInvCount + splitInvCount;
+        }
+        return 0;
+    }
+    
+    // Function to count inversions in the array
     static int inversionCount(int[] arr) {
-        int n = arr.length;
-        
-        // Step 1: Normalize the array elements to a smaller range
-        int[] sorted = arr.clone();
-        Arrays.sort(sorted);
-        
-        // Create a map to normalize values
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            map.put(sorted[i], i + 1); // Fenwick Tree is 1-indexed
-        }
-        
-        // Step 2: Fenwick Tree for counting inversions
-        int[] fenwick = new int[n + 1]; // Fenwick Tree of size n+1
-        int inversionCount = 0;
-        
-        // Traverse the array from right to left
-        for (int i = n - 1; i >= 0; i--) {
-            // Query the Fenwick Tree for the count of elements < arr[i]
-            inversionCount += query(fenwick, map.get(arr[i]) - 1);
-            // Update the Fenwick Tree with the current element
-            update(fenwick, map.get(arr[i]), 1, n);
-        }
-        
-        return inversionCount;
-    }
-    
-    // Function to update the Fenwick Tree
-    private static void update(int[] fenwick, int index, int value, int n) {
-        while (index <= n) {
-            fenwick[index] += value;
-            index += index & -index; // Move to the next position
-        }
-    }
-    
-    // Function to query the Fenwick Tree for the prefix sum up to a given index
-    private static int query(int[] fenwick, int index) {
-        int sum = 0;
-        while (index > 0) {
-            sum += fenwick[index];
-            index -= index & -index; // Move to the parent node
-        }
-        return sum;
+        Solution solution = new Solution();
+        return solution.mergeSort(arr, 0, arr.length - 1);
     }
 }
+
