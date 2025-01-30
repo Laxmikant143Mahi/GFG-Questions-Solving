@@ -17,6 +17,16 @@ class GFG {
             if (ans.size() == 0)
                 System.out.println("-1");
             else {
+                ans.sort((list1, list2) -> {
+                    int size = Math.min(list1.size(), list2.size());
+                    for (int i = 0; i < size; i++) {
+                        if (!list1.get(i).equals(list2.get(i))) {
+                            return list1.get(i) - list2.get(i);
+                        }
+                    }
+                    return list1.size() - list2.size();
+                });
+
                 for (int i = 0; i < ans.size(); i++) {
                     System.out.print("[");
                     for (int j = 0; j < ans.get(i).size(); j++)
@@ -35,49 +45,37 @@ class GFG {
 
 // User function Template for Java
 
-
 class Solution {
-    // Helper function to check if a queen can be safely placed at (row, col)
-    public boolean isSafe(int[] board, int row, int col) {
-        // Check vertical and diagonals
-        for (int i = 0; i < row; i++) {
-            if (board[i] == col || Math.abs(board[i] - col) == Math.abs(i - row)) {
+
+public ArrayList<ArrayList<Integer>> nQueen(int n) {
+        ArrayList<ArrayList<Integer>> solutions = new ArrayList<>();
+        backtrack(n, 0, new ArrayList<>(), solutions);
+        return solutions;
+    }
+
+    private void backtrack(int n, int col, ArrayList<Integer> queenPositions, ArrayList<ArrayList<Integer>> solutions) {
+        if (col == n) {
+            solutions.add(new ArrayList<>(queenPositions));
+            return;
+        }
+
+        for (int row = 1; row <= n; row++) {
+            if (isSafe(queenPositions, row, col)) {
+                queenPositions.add(row);
+                backtrack(n, col + 1, queenPositions, solutions);
+                queenPositions.remove(queenPositions.size() - 1);
+            }
+        }
+    }
+
+    private boolean isSafe(ArrayList<Integer> queenPositions, int newRow, int newCol) {
+        for (int col = 0; col < queenPositions.size(); col++) {
+            int row = queenPositions.get(col);
+            if (row == newRow || Math.abs(row - newRow) == Math.abs(col - newCol)) {
                 return false;
             }
         }
         return true;
     }
 
-    // Helper function to solve the N-Queens problem using backtracking
-    public void solveNQueens(int n, int row, int[] board, ArrayList<ArrayList<Integer>> result) {
-        // If all queens are placed
-        if (row == n) {
-            ArrayList<Integer> solution = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                solution.add(board[i] + 1); // Add 1-based column index
-            }
-            result.add(solution); // Add the current valid configuration
-            return;
-        }
-
-        // Try placing the queen in all columns of the current row
-        for (int col = 0; col < n; col++) {
-            if (isSafe(board, row, col)) {
-                board[row] = col; // Place queen in the current column
-                solveNQueens(n, row + 1, board, result); // Recur for next row
-                board[row] = -1; // Backtrack
-            }
-        }
-    }
-
-    // Main function to return all solutions to the N-Queens problem
-    public ArrayList<ArrayList<Integer>> nQueen(int n) {
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-        int[] board = new int[n]; // board[i] represents the column of the queen in row i
-        Arrays.fill(board, -1); // Initialize the board (no queen placed)
-
-        // Start the backtracking process from the first row
-        solveNQueens(n, 0, board, result);
-        return result;
-    }
 }
