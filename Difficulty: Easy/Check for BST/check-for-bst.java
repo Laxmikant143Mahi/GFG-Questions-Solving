@@ -108,40 +108,33 @@ System.out.println("~");
 
 
 // User function Template for Java
-
 class Solution {
     // Function to check whether a Binary Tree is BST or not.
     
+    int prev = Integer.MIN_VALUE;
     
-    void inOrder(Node root, ArrayList<Integer> list){
-        
-        if(root==null){
-            return;
+    boolean inOrder(Node root) {
+        if (root == null) {
+            return true;
         }
         
-        inOrder(root.left,list);
-        
-        list.add(root.data);
-        
-        inOrder(root.right, list);
-    }
-    boolean isBST(Node root){
-        
-        if(root==null)
+        // Check the left subtree
+        if (!inOrder(root.left)) {
             return false;
-        
-        
-        ArrayList<Integer> list = new ArrayList<>();
-        
-        inOrder(root, list);
-        
-        for(int i=0; i<list.size()-1; i++){
-            
-            if(list.get(i) >= list.get(i+1)){
-                return false;
-            }
         }
-        return true;
+        
+        // Check the current node
+        if (root.data <= prev) {
+            return false;
+        } else {
+            prev = root.data;
+        }
+        
+        // Check the right subtree
+        return inOrder(root.right);
     }
     
+    boolean isBST(Node root) {
+        return inOrder(root);
+    }
 }
