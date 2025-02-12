@@ -4,8 +4,8 @@
 /*package whatever //do not write package name here */
 
 import java.io.*;
-import java.util.*;
 import java.math.*;
+import java.util.*;
 
 class Node {
     int data;
@@ -69,8 +69,7 @@ class GFG {
 
     public static void main(String args[]) throws IOException {
 
-        BufferedReader br =
-            new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(br.readLine().trim());
         while (t > 0) {
             String s = br.readLine();
@@ -79,11 +78,11 @@ class GFG {
             int k = Integer.parseInt(br.readLine().trim());
 
             Solution T = new Solution();
-            System.out.println(T.KthSmallestElement(root, k));
+            System.out.println(T.kthSmallest(root, k));
             t--;
-        
-System.out.println("~");
-}
+
+            System.out.println("~");
+        }
     }
 }
 
@@ -97,7 +96,7 @@ System.out.println("~");
 //     int data;
 //     Node left, right;
 
-//           public Node(int d)
+//     public Node(int d)
 //     {
 //         data = d;
 //         left = right = null;
@@ -128,7 +127,7 @@ class Solution {
         findK(root.right, k, element);
     }
     // Return the Kth smallest element in the given BST
-    public int KthSmallestElement(Node root, int k) {
+    public int kthSmallest(Node root, int k) {
         int[] kWrapper = {k};  // Use an array to hold k
         int[] element = {-1};    // Array to store the result
         
