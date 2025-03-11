@@ -13,20 +13,20 @@ class GfG {
 
             Solution obj = new Solution();
 
-            System.out.println(obj.CountPs(s));
+            System.out.println(obj.countPS(s));
+
+            System.out.println("~");
         }
     }
 }
 // } Driver Code Ends
 
 
-// User function Template for Java
 
 class Solution {
-    public int CountPs(String s) {
+    public int countPS(String s) {
         // code here
-        
-        int n = s.length();
+         int n = s.length();
         int count=0;
         
         int dp[][] = new int[n][n];
