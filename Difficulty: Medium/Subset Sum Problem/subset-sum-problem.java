@@ -28,11 +28,11 @@ class GFG {
 // } Driver Code Ends
 
 
-// User function Template for Java
 class Solution {
 
     static Boolean isSubsetSum(int arr[], int target) {
-       int n = arr.length;
+        // code here
+        int n = arr.length;
 
         // DP table where dp[i][j] is true if a subset of the first i elements has a sum of j
         boolean[][] dp = new boolean[n + 1][target + 1];
